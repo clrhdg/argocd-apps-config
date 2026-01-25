@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-mdns
+  namespace: argocd  # Deployed in argocd ns (standard)
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/blake/external-mdns.git
+    targetRevision: HEAD
+    path: manifests/rbac  # Privileged version (includes base + RBAC)
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-mdns  # The ns it creates/uses
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
