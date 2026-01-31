@@ -6,9 +6,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/mclaireh/argocd-apps-config.git  # YOUR repo URL here!
+    repoURL: https://github.com/mclaireh/argocd-apps-config.git
     targetRevision: HEAD
-    path: apps  # Points to the folder with child YAMLs
+    path: .
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
