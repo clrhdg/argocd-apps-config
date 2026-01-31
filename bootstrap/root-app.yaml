@@ -3,14 +3,19 @@ kind: Application
 metadata:
   name: root-apps
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    repoURL: https://github.com/mclaireh/argocd-apps-config.git
-    targetRevision: HEAD
-    path: .
-    directory:
-      recurse: true
+  sources:
+    - repoURL: https://github.com/mclaireh/argocd-apps-config.git
+      targetRevision: HEAD
+      path: apps
+    - repoURL: https://github.com/mclaireh/argocd-apps-config.git
+      targetRevision: HEAD
+      path: infra
+      directory:
+        exclude: 'resources/*'
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
