@@ -18,10 +18,10 @@ Argo CD uses the **bundled Dex** IdP for GitHub OAuth. Follow these steps to ena
 Edit `argocd-cm-github-sso.yaml` in this directory:
 
 - Replace `GITHUB_CLIENT_ID` with your OAuth app **Client ID**.
-- Replace `GITHUB_ORG` with the GitHub **organization** whose members are allowed to log in (or remove the `orgs` block to allow any GitHub user).
+- Replace `GITHUB_ORG` with your **GitHub organization** name. Only members of that org can log in.
 - Ensure `url` matches how you access Argo CD (e.g. `https://argocd.local`). This must match the host used in the OAuth callback URL.
 
-Optional: to restrict by team, add a `teams` list under the org:
+Optional: to restrict to a specific team within the org, add a `teams` list under the org:
 
 ```yaml
 orgs:
@@ -60,7 +60,7 @@ kubectl rollout restart deployment argo-cd-argocd-dex-server -n argocd
 
 ## 5. (Optional) RBAC by GitHub org/team
 
-To map GitHub groups to Argo CD roles, configure `argocd-rbac-cm`. Dex exposes GitHub org/team membership as OIDC groups like `github:your-org` and `github:your-org:your-team`. Example:
+If you use an org (and optionally teams), you can map GitHub groups to Argo CD roles in `argocd-rbac-cm`. Dex exposes org/team membership as OIDC groups like `github:your-org` and `github:your-org:your-team`. Example:
 
 ```yaml
 apiVersion: v1
@@ -87,6 +87,6 @@ Then add a patch for `argocd-rbac-cm` in `kustomization.yaml` (or apply the Conf
 | Client ID | `argocd-cm-github-sso.yaml` → `dex.config` → `clientID` |
 | Client secret | Kubernetes Secret `argocd-secret`, key `dex.github.clientSecret` |
 | Argo CD URL | `argocd-cm-github-sso.yaml` → `url` (and GitHub callback URL) |
-| Org/team | `argocd-cm-github-sso.yaml` → `dex.config` → `orgs` |
+| Who can log in | Set `GITHUB_ORG` in `argocd-cm-github-sso.yaml`; only members of that org can log in. |
 
-After this, the Argo CD login page should show **Login via GitHub**; use it to sign in with a GitHub account that is in the allowed org (and team, if configured).
+After this, the Argo CD login page shows **Login via GitHub**; only members of your GitHub organization can sign in.

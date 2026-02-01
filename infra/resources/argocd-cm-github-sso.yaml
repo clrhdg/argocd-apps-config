@@ -1,6 +1,6 @@
 # Patch for argocd-cm to enable GitHub SSO via bundled Dex.
-# Replace GITHUB_CLIENT_ID and GITHUB_ORG with your values.
-# Store the OAuth client secret in argocd-secret (see README).
+# Replace GITHUB_CLIENT_ID with your OAuth app Client ID and GITHUB_ORG with your GitHub org name.
+# Only members of that org can log in. Store the client secret in argocd-secret (see GITHUB-SSO.md).
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -15,7 +15,7 @@ data:
       id: github
       name: GitHub
       config:
-        clientID: GITHUB_CLIENT_ID
+        clientID: Ov23liVUCcnUqoN9dooy
         clientSecret: $dex.github.clientSecret
         orgs:
-        - name: GITHUB_ORG
+        - name: shields-farm
