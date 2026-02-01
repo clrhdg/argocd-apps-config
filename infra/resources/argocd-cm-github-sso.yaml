@@ -8,7 +8,7 @@ metadata:
   namespace: argocd
 data:
   # Argo CD base URL (must match how you reach the UI; used for OAuth callback)
-  url: https://argocd-server-lb.argocd.local/
+  url: https://argocd-server-lb.argocd.local
   dex.config: |
     connectors:
     - type: github
