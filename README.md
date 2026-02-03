@@ -165,7 +165,7 @@ The root Application will appear in the Argo CD UI and begin syncing. It has **m
 2. **Child apps:** After the root syncs, you should see Applications for `guestbook`, `blue-green`, `argocd-lb`, and `external-mdns`. Each will sync from its own source; some may need repo access if they use private repos.
 3. **Optional:** Enable auto-sync on the root if it’s not already (the repo’s `root-app.yaml` has `syncPolicy.automated` with `prune` and `selfHeal`).
 
-### Step 5: What happens next
+### Step 4: What happens next
 
 - The root Application keeps syncing `apps/` and `infra/` on its refresh interval. Any new or changed Application YAML in those directories will be applied.
 - Each child Application syncs its `source` (external repo or `infra/resources`). To add apps, add new Application manifests under `apps/` or `infra/` and push; no change to the root Application is required.
