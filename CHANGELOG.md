@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file. Entries are gro
 
 ---
 
+## 2026-02-04
+
+### **Add Gatekeeper via Helm**  
+**Branch:** `feature/gatekeeper`  
+Adds Argo CD Application (`infra/gatekeeper.yaml`) that deploys OPA Gatekeeper from the official Helm chart (v3.21.0) into `gatekeeper-system` with auto-sync, prune, and self-heal.
+
+---
+
 ## 2026-02-03
 
 ### **Add CHANGELOG.md**  
