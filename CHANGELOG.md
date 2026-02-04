@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. Entries are gro
 
 ## 2026-02-04
 
+### **Add External Secrets Operator and Vault for secrets management**  
+**Branch:** `feature/secrets-management`  
+Adds Argo CD Applications for secrets tooling: `infra/eso-app.yaml` deploys External Secrets Operator (chart v1.3.2) into `external-secrets`; `infra/vault-app.yaml` deploys HashiCorp Vault (chart v0.32.0) into `vault`. Both use auto-sync, prune, and self-heal.
+
 ### **Add Gatekeeper via Helm**  
 **Branch:** `feature/gatekeeper`  
 Adds Argo CD Application (`infra/gatekeeper.yaml`) that deploys OPA Gatekeeper from the official Helm chart (v3.21.0) into `gatekeeper-system` with auto-sync, prune, and self-heal.
