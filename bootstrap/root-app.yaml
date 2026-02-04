@@ -8,10 +8,10 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: https://github.com/mclaireh/argocd-apps-config.git
+    - repoURL: https://github.com/clrhdg/argocd-apps-config.git
       targetRevision: HEAD
       path: apps
-    - repoURL: https://github.com/mclaireh/argocd-apps-config.git
+    - repoURL: https://github.com/clrhdg/argocd-apps-config.git
       targetRevision: HEAD
       path: infra
       directory:
