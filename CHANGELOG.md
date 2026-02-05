@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. Entries are gro
 
 ## 2026-02-04
 
+### **Gatekeeper: add Helm values for webhook, resources, and audit**  
+**Branch:** `fix/gatekeeper`  
+Configures the Gatekeeper Application with Helm values: `validatingWebhookTimeoutSeconds: 3`, controller manager resource limits/requests (cpu/memory), and audit enabled with 60s interval.
+
 ### **Fix External Secrets sync: use ServerSideApply for large CRDs**  
 **Branch:** `feature/fix-eso-sync`  
 Fixes sync failures for the External Secrets application caused by CRD `metadata.annotations` exceeding Kubernetes’ 262144-byte limit. Adds `ServerSideApply=true` to `infra/eso-app.yaml` syncOptions so Argo CD uses server-side apply and no longer stores the full resource in annotations.
