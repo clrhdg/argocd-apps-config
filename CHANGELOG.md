@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. Entries are gro
 
 ## 2026-02-04
 
+### **Add Gatekeeper policy for required labels with warn enforcement**  
+**Branch:** `feature/add-gatekeeper-policies`  
+Adds OPA Gatekeeper policy to warn when resources are missing required labels. Creates `infra/policies/` directory with `K8sRequiredLabels` ConstraintTemplate and constraint that checks for `pp.kubernetes.io/name`, and `app.kubernetes.io/version` labels on Deployments, StatefulSets, DaemonSets, and Namespaces. Uses `enforcementAction: warn` to log violations without blocking resources. Includes Argo CD Application (`gatekeeper-policies-app.yaml`) to manage policy deployment.
+
 ### **Gatekeeper: add Helm values for webhook, resources, and audit**  
 **Branch:** `fix/gatekeeper`  
 Configures the Gatekeeper Application with Helm values: `validatingWebhookTimeoutSeconds: 3`, controller manager resource limits/requests (cpu/memory), and audit enabled with 60s interval.

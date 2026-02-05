@@ -18,26 +18,6 @@ The `require-common-labels` constraint warns (does not block) when resources are
 - kube-system, kube-public, kube-node-lease
 - gatekeeper-system, argocd
 
-**Required Labels**:
-- `owner` - any alphanumeric string (team or person responsible)
-- `environment` - must be one of: `dev`, `staging`, `prod`
-- `app` - alphanumeric string (application name)
-
-### Example Compliant Resource
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app
-  labels:
-    owner: platform-team
-    environment: prod
-    app: my-app
-spec:
-  # ... deployment spec
-```
-
 ### Customization
 
 **To change required labels**: Edit `require-labels-constraint.yaml` under `parameters.labels`
