@@ -1,0 +1,29 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: require-common-labels
+spec:
+  # Use 'warn' to issue warnings instead of blocking resources
+  enforcementAction: warn
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Namespace"]
+      - apiGroups: ["apps"]
+        kinds: ["Deployment", "StatefulSet", "DaemonSet"]
+    # Exclude system namespaces
+    excludedNamespaces:
+      - kube-system
+      - kube-public
+      - kube-node-lease
+      - gatekeeper-system
+      - argocd
+  parameters:
+    message: "All resources must have the required labels"
+    labels:
+      - key: "owner"
+        allowedRegex: "^[a-zA-Z0-9-_]+$"
+      - key: "environment"
+        allowedRegex: "^(dev|staging|prod)$"
+      - key: "app"
+        allowedRegex: "^[a-zA-Z0-9-_]+$"
