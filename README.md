@@ -26,43 +26,54 @@ So: **Root Application → syncs Application CRs from this repo → each Applica
 
 ## Architecture diagram
 
-```mermaid
-flowchart LR
-    subgraph Bootstrap
-        R[Root App]
-    end
-
-    subgraph Repo["argocd-apps-config"]
-        A[apps/]
-        I[infra/]
-        IR[infra/resources/]
-    end
-
-    subgraph Applications
-        G[guestbook]
-        B[blue-green]
-        AL[argocd-lb]
-        E[external-mdns]
-    end
-
-    subgraph Sources
-        EG[argocd-example-apps]
-        EM[external-mdns repo]
-    end
-
-    R --> A
-    R --> I
-    A --> G
-    A --> B
-    I --> AL
-    I --> E
-    G --> EG
-    B --> EG
-    E --> EM
-    AL --> IR
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              BOOTSTRAP PHASE                                 │
+│                                                                              │
+│                            ┌──────────────┐                                 │
+│                            │   Root App   │                                 │
+│                            │ (root-apps)  │                                 │
+│                            └──────┬───────┘                                 │
+│                                   │                                          │
+└───────────────────────────────────┼──────────────────────────────────────────┘
+                                    │
+                    ┌───────────────┴───────────────┐
+                    │                               │
+                    ▼                               ▼
+        ┌──────────────────┐          ┌──────────────────────┐
+        │  apps/ directory │          │  infra/ directory    │
+        └──────────────────┘          └──────────────────────┘
+                    │                               │
+        ┌───────────┴───────────┐       ┌──────────┴──────────┬──────────────┐
+        │                       │       │                     │              │
+        ▼                       ▼       ▼                     ▼              ▼
+┌──────────────┐      ┌──────────────┐ ┌──────────────┐ ┌─────────┐ ┌──────────┐
+│  guestbook   │      │  blue-green  │ │  argocd-lb   │ │   ESO   │ │  Vault   │
+│ Application  │      │ Application  │ │ Application  │ │   App   │ │   App    │
+└──────┬───────┘      └──────┬───────┘ └──────┬───────┘ └────┬────┘ └────┬─────┘
+       │                     │                │               │           │
+       │                     │                │               │           │
+       ▼                     ▼                ▼               ▼           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         APPLICATION SOURCES                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  ┌────────────────┐  ┌────────────────┐  ┌───────────────┐  ┌───────────┐ │
+│  │ argocd-example │  │ argocd-example │  │infra/resources│  │  External │ │
+│  │  apps/repo     │  │  apps/repo     │  │ (this repo)   │  │Helm Charts│ │
+│  │  /guestbook    │  │  /blue-green   │  │               │  │           │ │
+│  └────────────────┘  └────────────────┘  └───────────────┘  └───────────┘ │
+│                                                                              │
+│  Deploys actual workloads (Deployments, Services, etc.)                     │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**In words:** Root syncs `apps/` and `infra/` → creates Applications (guestbook, blue-green, argocd-lb, external-mdns). Each Application then syncs from its configured source; `argocd-lb` syncs `infra/resources/` (Argo CD install + LB service) in this repo.
+**Flow:**
+1. Root Application syncs `apps/` and `infra/` directories from this repo
+2. Creates child Applications (guestbook, blue-green, argocd-lb, ESO, Vault, etc.)
+3. Each Application syncs from its configured source:
+   - `guestbook` & `blue-green` → external argocd-example-apps repo
+   - `argocd-lb` → `infra/resources/` in this repo (Argo CD install + LB service)
+   - `ESO` & `Vault` → external Helm charts
 
 ---
 

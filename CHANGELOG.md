@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. Entries are gro
 
 ## 2026-02-04
 
+### **Replace Mermaid architecture diagram with ASCII art in README**  
+**Branch:** `fix/fix-arch-diagram`  
+Converts the Mermaid flowchart in `README.md` to an ASCII art diagram using box-drawing characters. The new diagram maintains the same architectural information (Root App → apps/infra directories → Applications → sources) but renders in any text viewer without requiring Mermaid support. Updates flow description to include ESO and Vault applications.
+
 ### **Add Gatekeeper policy for required labels with warn enforcement**  
 **Branch:** `feature/add-gatekeeper-policies`  
 Adds OPA Gatekeeper policy to warn when resources are missing required labels. Creates `infra/policies/` directory with `K8sRequiredLabels` ConstraintTemplate and constraint that checks for `pp.kubernetes.io/name`, and `app.kubernetes.io/version` labels on Deployments, StatefulSets, DaemonSets, and Namespaces. Uses `enforcementAction: warn` to log violations without blocking resources. Includes Argo CD Application (`gatekeeper-policies-app.yaml`) to manage policy deployment.
