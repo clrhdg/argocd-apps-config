@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file. Entries are gro
 
 ---
 
+## 2026-02-11
+
+### **Fix Gatekeeper out-of-sync by enabling ServerSideApply**  
+**Branch:** `fix/gatekeeper-out-of-sync`  
+Adds `ServerSideApply=true` to syncOptions in `infra/gatekeeper.yaml` to resolve persistent out-of-sync issues. Gatekeeper CRDs can exceed Kubernetes' annotation size limits when using client-side apply; server-side apply avoids this by having the API server manage field ownership without storing the full configuration in annotations.
+
+---
+
 ## 2026-02-04
 
 ### **Replace Mermaid architecture diagram with ASCII art in README**  
